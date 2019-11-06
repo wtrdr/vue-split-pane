@@ -1,11 +1,11 @@
 <template>
-  <div :style="{ cursor, userSelect}" class="vue-splitter-container" @mouseup="onMouseUp" @mousemove="onMouseMove">
+  <div :style="{ cursor, userSelect}" :class="['vue-splitter-container', className]" @mouseup="onMouseUp" @mousemove="onMouseMove">
 
     <pane class="splitter-pane splitter-paneL" :split="split" :style="{ [type]: percent+'%'}">
       <slot name="paneL"></slot>
     </pane>
 
-    <resizer :className="className" :style="{ [resizeType]: percent+'%'}" :split="split" @mousedown.native="onMouseDown" @click.native="onClick"></resizer>
+    <resizer :style="{ [resizeType]: percent+'%', backgroundColor: borderColor}" :split="split" @mousedown.native="onMouseDown" @click.native="onClick"></resizer>
 
     <pane class="splitter-pane splitter-paneR" :split="split" :style="{ [type]: 100-percent+'%'}">
       <slot name="paneR"></slot>
@@ -36,7 +36,8 @@
         },
         required: true
       },
-      className: String
+      className: String,
+      borderColor: String
     },
     computed: {
       userSelect() {
@@ -47,7 +48,7 @@
       }
     },
     watch: {
-      defaultPercent(newValue,oldValue){
+      defaultPercent(newValue, oldValue) {
         this.percent = newValue
       }
     },
