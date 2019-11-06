@@ -1,25 +1,9 @@
 <template>
-	<div :class="classes"></div>
+	<div class="splitter-pane-resizer"></div>
 </template>
 
 <script>
-  export default {
-    props: {
-      split: {
-        validator(value) {
-          return ['vertical', 'horizontal'].indexOf(value) >= 0
-        },
-        required: true
-      },
-      className: String
-    },
-    computed: {
-      classes() {
-        const classes = ['splitter-pane-resizer', this.split, this.className]
-        return classes.join(' ')
-      }
-    }
-  }
+export default {}
 </script>
 
 <style scoped>
@@ -28,9 +12,7 @@
 	background-color: #000;
 	z-index: 1;
 	background-clip: padding-box;
-}
 
-.splitter-pane-resizer.vertical {
   width: 11px;
 	height: 100%;
 	margin-left: -5px;

@@ -1,21 +1,20 @@
 <template>
   <div :style="{ cursor, userSelect }" :class="['vue-splitter-container', className]" @mouseup="onMouseUp" @mousemove="onMouseMove">
 
-    <pane class="splitter-pane splitter-paneL" :split="split" :style="{ [type]: percent+'%' }">
+    <div :style="{ width: percent+'%' }">
       <slot name="paneL"></slot>
-    </pane>
+    </div>
 
-    <resizer :style="{ backgroundColor: borderColor }" :split="split" @mousedown.native="onMouseDown" @click.native="onClick"></resizer>
+    <resizer :style="{ backgroundColor: borderColor }" @mousedown.native="onMouseDown" @click.native="onClick"></resizer>
 
-    <pane class="splitter-pane splitter-paneR" :split="split" :style="{ [type]: 100-percent+'%'}">
+    <div :style="{ width: 100-percent+'%'}">
       <slot name="paneR"></slot>
-    </pane>
+    </div>
   </div>
 </template>
 
 <script>
   import Resizer from './resizer.vue'
-  import Pane from './pane.vue'
 
   export default {
     name: 'splitPane',
@@ -29,12 +28,6 @@
         type: Number,
         default: 50
       },
-      split: {
-        validator(value) {
-          return ['vertical', 'horizontal'].indexOf(value) >= 0
-        },
-        required: true
-      },
       className: String,
       borderColor: String
     },
@@ -47,7 +40,7 @@
       }
     },
     watch: {
-      defaultPercent(newValue, oldValue) {
+      defaultPercent(newValue, _oldValue) {
         this.percent = newValue
       }
     },
@@ -56,8 +49,7 @@
         active: false,
         hasMoved: false,
         height: null,
-        percent: this.defaultPercent,
-        type: this.split === 'vertical' ? 'width' : 'height'
+        percent: this.defaultPercent
       }
     },
     methods: {
@@ -82,20 +74,13 @@
         if (this.active) {
           let offset = 0
           let target = e.currentTarget
-          if (this.split === 'vertical') {
-            while (target) {
-              offset += target.offsetLeft
-              target = target.offsetParent
-            }
-          } else {
-            while (target) {
-              offset += target.offsetTop
-              target = target.offsetParent
-            }
+          while (target) {
+            offset += target.offsetLeft
+            target = target.offsetParent
           }
 
-          const currentPage = this.split === 'vertical' ? e.pageX : e.pageY
-          const targetOffset = this.split === 'vertical' ? e.currentTarget.offsetWidth : e.currentTarget.offsetHeight
+          const currentPage = e.pageX
+          const targetOffset = e.currentTarget.offsetWidth
           const percent = Math.floor(((currentPage - offset) / targetOffset) * 10000) / 100
 
           if (percent > this.minPercent && percent < 100 - this.minPercent) {
