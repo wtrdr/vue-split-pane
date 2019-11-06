@@ -18,7 +18,7 @@
 
   export default {
     name: 'splitPane',
-    components: { Resizer, Pane },
+    components: { Resizer },
     props: {
       minPercent: {
         type: Number,
