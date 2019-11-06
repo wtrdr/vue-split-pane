@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ cursor, userSelect}" class="vue-splitter-container clearfix" @mouseup="onMouseUp" @mousemove="onMouseMove">
+  <div :style="{ cursor, userSelect}" class="vue-splitter-container" @mouseup="onMouseUp" @mousemove="onMouseMove">
 
     <pane class="splitter-pane splitter-paneL" :split="split" :style="{ [type]: percent+'%'}">
       <slot name="paneL"></slot>
@@ -112,15 +112,6 @@
 </script>
 
 <style scoped>
-.clearfix:after {
-  visibility: hidden;
-  display: block;
-  font-size: 0;
-  content: " ";
-  clear: both;
-  height: 0;
-}
-
 .vue-splitter-container {
   height: 100%;
   position: relative;
