@@ -1,16 +1,15 @@
 <template>
-  <div :style="{ cursor, userSelect}" :class="['vue-splitter-container', className]" @mouseup="onMouseUp" @mousemove="onMouseMove">
+  <div :style="{ cursor, userSelect }" :class="['vue-splitter-container', className]" @mouseup="onMouseUp" @mousemove="onMouseMove">
 
-    <pane class="splitter-pane splitter-paneL" :split="split" :style="{ [type]: percent+'%'}">
+    <pane class="splitter-pane splitter-paneL" :split="split" :style="{ [type]: percent+'%' }">
       <slot name="paneL"></slot>
     </pane>
 
-    <resizer :style="{ [resizeType]: percent+'%', backgroundColor: borderColor}" :split="split" @mousedown.native="onMouseDown" @click.native="onClick"></resizer>
+    <resizer :style="{ backgroundColor: borderColor }" :split="split" @mousedown.native="onMouseDown" @click.native="onClick"></resizer>
 
     <pane class="splitter-pane splitter-paneR" :split="split" :style="{ [type]: 100-percent+'%'}">
       <slot name="paneR"></slot>
     </pane>
-    <div class="vue-splitter-container-mask" v-if="active"></div>
   </div>
 </template>
 
@@ -58,8 +57,7 @@
         hasMoved: false,
         height: null,
         percent: this.defaultPercent,
-        type: this.split === 'vertical' ? 'width' : 'height',
-        resizeType: this.split === 'vertical' ? 'left' : 'top'
+        type: this.split === 'vertical' ? 'width' : 'height'
       }
     },
     methods: {
@@ -114,16 +112,6 @@
 
 <style scoped>
 .vue-splitter-container {
-  height: 100%;
-  position: relative;
-}
-
-.vue-splitter-container-mask {
-  z-index: 9999;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: flex;
 }
 </style>
